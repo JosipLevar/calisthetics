@@ -11,6 +11,7 @@
 --tx:#28251d;--txm:#6f6b64;--txf:#99958e;
 --pr:#01696f;--prh:#0c4e54;--prhl:#cedcd8;
 --ok:#437a22;--warn:#964219;--err:#a12c7b;
+--prep:#1a6bbf;
 --rsm:0 1px 2px rgba(0,0,0,.06);--rmd:0 10px 30px rgba(0,0,0,.08);
 --font:'Satoshi','Inter',sans-serif;
 --xs:clamp(.75rem,.7rem + .25vw,.875rem);--sm:clamp(.875rem,.8rem + .35vw,1rem);
@@ -23,17 +24,16 @@
 --tx:#ece8df;--txm:#b0aaa0;--txf:#817a71;
 --pr:#4f98a3;--prh:#69adb7;--prhl:#243336;
 --ok:#78b64b;--warn:#d58a57;--err:#d163a7;
+--prep:#4a8fd4;
 --rsm:0 1px 2px rgba(0,0,0,.25);--rmd:0 10px 30px rgba(0,0,0,.35);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:none;text-size-adjust:none}
 body{min-height:100dvh;font-family:var(--font);font-size:var(--base);line-height:1.45;
-background:radial-gradient(circle at top right,color-mix(in oklab,var(--pr) 11%,transparent),transparent 28%),var(--bg);
-color:var(--tx);}
+background:radial-gradient(circle at top right,color-mix(in oklab,var(--pr) 11%,transparent),transparent 28%),var(--bg);color:var(--tx);}
 button,input,select,textarea{font:inherit;cursor:pointer}
 textarea{cursor:text}
 .app{width:min(100%,860px);margin:0 auto;padding:env(safe-area-inset-top) var(--s4) calc(var(--s8) + env(safe-area-inset-bottom))}
-/* TOPBAR */
 .topbar{position:sticky;top:0;z-index:40;backdrop-filter:blur(18px);
 background:color-mix(in oklab,var(--bg) 82%,transparent);padding:var(--s3) 0 var(--s4)}
 .brand{display:flex;align-items:center;justify-content:space-between;gap:var(--s3);margin-bottom:var(--s4)}
@@ -48,15 +48,12 @@ border-radius:var(--r);border:1px solid color-mix(in oklab,var(--tx) 8%,transpar
 .seg button{border:0;min-height:44px;border-radius:var(--r);background:transparent;color:var(--txm);font-weight:700;font-size:var(--sm)}
 .seg button.active{background:var(--pr);color:#fff;box-shadow:var(--rsm)}
 .ibtn{border:1px solid color-mix(in oklab,var(--tx) 10%,transparent);background:var(--surf);color:var(--tx);
-border-radius:14px;width:44px;height:44px;display:grid;place-items:center;box-shadow:var(--rsm);transition:.18s}
-/* SECTIONS */
+border-radius:14px;width:44px;height:44px;display:grid;place-items:center;box-shadow:var(--rsm)}
 .sec{display:none}.sec.active{display:block}
-/* CARDS */
 .card{background:var(--surf);border:1px solid color-mix(in oklab,var(--tx) 10%,transparent);
 border-radius:var(--rl);padding:var(--s5);box-shadow:var(--rsm);margin-bottom:var(--s4)}
 .card h2{font-size:var(--lg);margin-bottom:var(--s3)}
 .card h3{font-size:var(--base);margin-bottom:var(--s2)}
-/* HERO */
 .hero{background:linear-gradient(180deg,color-mix(in oklab,var(--surf) 92%,white),var(--surf));
 border:1px solid color-mix(in oklab,var(--tx) 10%,transparent);border-radius:var(--rl);
 padding:var(--s5);box-shadow:var(--rmd);margin-bottom:var(--s5)}
@@ -64,103 +61,94 @@ padding:var(--s5);box-shadow:var(--rmd);margin-bottom:var(--s5)}
 .stat{padding:var(--s4);border-radius:var(--rm);background:var(--surf2);border:1px solid color-mix(in oklab,var(--tx) 9%,transparent)}
 .stat .lbl{font-size:var(--xs);color:var(--txm);text-transform:uppercase;letter-spacing:.06em}
 .stat .val{font-size:var(--lg);font-weight:900;margin-top:.3rem}
-/* PROGRESS BAR */
 .pshell{background:var(--surf);border:1px solid color-mix(in oklab,var(--tx) 10%,transparent);
 border-radius:var(--rm);padding:var(--s4);margin-bottom:var(--s4)}
-.pmeta{display:flex;justify-content:space-between;align-items:center;gap:var(--s3);
-margin-bottom:var(--s3);font-size:var(--sm);color:var(--txm)}
-.bar{width:100%;height:12px;border-radius:var(--r);background:var(--surfoff);overflow:hidden}
-.bfill{height:100%;width:0%;background:linear-gradient(90deg,var(--pr),color-mix(in oklab,var(--pr) 65%,white));
-border-radius:inherit;transition:width .28s ease}
-/* DAY BUTTONS */
+.pmeta{display:flex;justify-content:space-between;align-items:center;gap:var(--s3);margin-bottom:var(--s3);font-size:var(--sm);color:var(--txm)}
+.bar{width:100%;height:10px;border-radius:var(--r);background:var(--surfoff);overflow:hidden}
+.bfill{height:100%;width:0%;background:linear-gradient(90deg,var(--pr),color-mix(in oklab,var(--pr) 65%,white));border-radius:inherit;transition:width .28s ease}
 .day-grid{display:grid;gap:.7rem}
 .dbtn{width:100%;text-align:left;padding:var(--s4);background:var(--surf);color:var(--tx);
 border:1px solid color-mix(in oklab,var(--tx) 10%,transparent);border-radius:var(--rm);
 display:flex;justify-content:space-between;align-items:center;gap:var(--s3);transition:.18s}
-.dbtn.active{border-color:color-mix(in oklab,var(--pr) 40%,transparent);
-background:color-mix(in oklab,var(--pr) 10%,var(--surf))}
+.dbtn.active{border-color:color-mix(in oklab,var(--pr) 40%,transparent);background:color-mix(in oklab,var(--pr) 10%,var(--surf))}
+
 /* EXERCISE CARD */
 .ex-card{background:var(--surf);border:1px solid color-mix(in oklab,var(--tx) 10%,transparent);
 border-radius:var(--rl);padding:var(--s4);box-shadow:var(--rsm);transition:.2s}
-.ex-card.done{border-color:color-mix(in oklab,var(--ok) 40%,transparent);
-background:color-mix(in oklab,var(--ok) 7%,var(--surf))}
-.ex-card.active-ex{border-color:color-mix(in oklab,var(--pr) 50%,transparent);
-box-shadow:0 0 0 2px color-mix(in oklab,var(--pr) 20%,transparent),var(--rmd)}
+.ex-card.done{border-color:color-mix(in oklab,var(--ok) 40%,transparent);background:color-mix(in oklab,var(--ok) 7%,var(--surf))}
+.ex-card.active-ex{border-color:color-mix(in oklab,var(--pr) 50%,transparent);box-shadow:0 0 0 2px color-mix(in oklab,var(--pr) 20%,transparent),var(--rmd)}
 .ex-header{display:flex;justify-content:space-between;align-items:start;gap:var(--s3);margin-bottom:var(--s3)}
 .ex-title{font-size:var(--base);font-weight:700}
 .ex-target{font-size:var(--sm);color:var(--txm);margin-top:.2rem}
 .ex-note{font-size:var(--xs);color:var(--txm);margin-top:var(--s3);padding:var(--s3);
 background:var(--surf2);border-radius:var(--rs);border-left:3px solid var(--prhl)}
-.badge{display:inline-flex;align-items:center;padding:.32rem .6rem;border-radius:var(--r);
-background:color-mix(in oklab,var(--pr) 12%,var(--surf));color:var(--pr);font-size:var(--xs);font-weight:800}
-.badge.ok{background:color-mix(in oklab,var(--ok) 12%,var(--surf));color:var(--ok)}
-.badge.warn{background:color-mix(in oklab,var(--warn) 12%,var(--surf));color:var(--warn)}
-/* SETS */
+
+/* SET ROW */
 .sets-grid{display:grid;gap:.45rem;margin-top:var(--s3)}
-.set-row{display:flex;align-items:center;gap:.5rem;padding:.6rem .8rem;border-radius:var(--rs);
-background:var(--surf2);border:1px solid color-mix(in oklab,var(--tx) 8%,transparent);transition:.18s}
-.set-row.set-done{border-color:color-mix(in oklab,var(--ok) 35%,transparent);
-background:color-mix(in oklab,var(--ok) 8%,var(--surf2))}
-.set-row.set-active{border-color:color-mix(in oklab,var(--pr) 45%,transparent);
-background:color-mix(in oklab,var(--pr) 8%,var(--surf2))}
+.set-row{border-radius:var(--rs);border:1px solid color-mix(in oklab,var(--tx) 8%,transparent);background:var(--surf2);overflow:hidden;transition:.18s}
+.set-row.set-done{border-color:color-mix(in oklab,var(--ok) 35%,transparent)}
+.set-row.set-active{border-color:color-mix(in oklab,var(--pr) 45%,transparent)}
+.set-top{display:flex;align-items:center;gap:.5rem;padding:.6rem .8rem}
 .set-num{font-size:var(--xs);font-weight:800;color:var(--txm);min-width:22px}
 .set-target{flex:1;font-size:var(--sm);font-weight:600}
 .set-btn{min-height:36px;padding:0 .85rem;border-radius:var(--rs);border:0;
 background:var(--pr);color:#fff;font-size:var(--xs);font-weight:800;white-space:nowrap}
-.set-btn:disabled{background:var(--surfoff);color:var(--txf)}
-.set-done-mark{color:var(--ok);font-size:1.1rem}
-/* TIMER */
-.timer-bar{margin-top:var(--s3);padding:var(--s3) var(--s4);border-radius:var(--rm);
-background:color-mix(in oklab,var(--pr) 10%,var(--surf2));
-border:1px solid color-mix(in oklab,var(--pr) 25%,transparent);
-display:flex;align-items:center;gap:var(--s3)}
-.timer-bar.rest{background:color-mix(in oklab,var(--warn) 10%,var(--surf2));
-border-color:color-mix(in oklab,var(--warn) 25%,transparent)}
-.timer-bar.prep{background:color-mix(in oklab,var(--ok) 10%,var(--surf2));
-border-color:color-mix(in oklab,var(--ok) 25%,transparent)}
-.timer-num{font-size:var(--xl);font-weight:900;min-width:3ch;text-align:center}
-.timer-label{font-size:var(--sm);color:var(--txm);flex:1}
-.timer-skip{min-height:34px;padding:0 .75rem;border-radius:var(--rs);border:0;
-background:var(--surfoff);color:var(--tx);font-size:var(--xs);font-weight:700}
+.set-btn:disabled{background:var(--surfoff);color:var(--txf);cursor:not-allowed}
+.set-done-mark{color:var(--ok);font-size:1.1rem;padding-right:.2rem}
+
+/* PHASE SLIDER */
+.phase-wrap{padding:0 .8rem .7rem}
+.phase-bar-bg{height:8px;border-radius:var(--r);overflow:hidden;background:var(--surfoff)}
+.phase-bar-fill{height:100%;width:0%;border-radius:inherit;transition:width 1s linear}
+.phase-bar-fill.prep{background:var(--prep)}
+.phase-bar-fill.hold{background:var(--ok)}
+.phase-bar-fill.rest{background:var(--warn)}
+.phase-info{display:flex;justify-content:space-between;align-items:center;margin-top:.35rem}
+.phase-label{font-size:var(--xs);font-weight:700}
+.phase-label.prep{color:var(--prep)}
+.phase-label.hold{color:var(--ok)}
+.phase-label.rest{color:var(--warn)}
+.phase-time{font-size:var(--xs);color:var(--txm);font-weight:700}
+.phase-skip{font-size:var(--xs);color:var(--txm);background:none;border:none;text-decoration:underline;padding:0}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;padding:.32rem .6rem;border-radius:var(--r);
+background:color-mix(in oklab,var(--pr) 12%,var(--surf));color:var(--pr);font-size:var(--xs);font-weight:800}
+.badge.ok{background:color-mix(in oklab,var(--ok) 12%,var(--surf));color:var(--ok)}
+.badge.warn{background:color-mix(in oklab,var(--warn) 12%,var(--surf));color:var(--warn)}
+.badge.danger{background:color-mix(in oklab,var(--err) 12%,var(--surf));color:var(--err)}
+
 /* RATING */
 .rating-group{margin-top:var(--s4)}
 .rating-label{font-size:var(--xs);text-transform:uppercase;letter-spacing:.06em;color:var(--txm);margin-bottom:.55rem}
 .rating-btns{display:grid;grid-template-columns:repeat(5,1fr);gap:.45rem}
-.rbtn{min-height:42px;border-radius:14px;border:1px solid color-mix(in oklab,var(--tx) 9%,transparent);
-background:var(--surf2);color:var(--txm);font-weight:800;transition:.15s}
+.rbtn{min-height:42px;border-radius:14px;border:1px solid color-mix(in oklab,var(--tx) 9%,transparent);background:var(--surf2);color:var(--txm);font-weight:800;transition:.15s}
 .rbtn.active[data-l="1"],.rbtn.active[data-l="2"]{background:color-mix(in oklab,var(--ok) 18%,var(--surf2));color:var(--ok)}
 .rbtn.active[data-l="3"]{background:color-mix(in oklab,var(--pr) 18%,var(--surf2));color:var(--pr)}
 .rbtn.active[data-l="4"],.rbtn.active[data-l="5"]{background:color-mix(in oklab,var(--warn) 18%,var(--surf2));color:var(--warn)}
-/* NOTE */
 .note-wrap{margin-top:var(--s3)}
 .note-wrap textarea{width:100%;min-height:72px;resize:vertical;border-radius:var(--rs);
-border:1px solid color-mix(in oklab,var(--tx) 12%,transparent);padding:.75rem;
-background:var(--bg);color:var(--tx);font-size:var(--sm)}
-/* ADVICE */
+border:1px solid color-mix(in oklab,var(--tx) 12%,transparent);padding:.75rem;background:var(--bg);color:var(--tx);font-size:var(--sm)}
 .advice{margin-top:var(--s3);padding:var(--s3) var(--s4);border-radius:var(--rs);
 background:var(--surf2);border-left:3px solid var(--pr);font-size:var(--sm);color:var(--txm)}
 .advice strong{color:var(--tx);display:block;margin-bottom:.2rem}
-/* FOOTER */
 .footer{position:sticky;bottom:0;z-index:50;padding-top:var(--s4);
-background:linear-gradient(180deg,transparent,color-mix(in oklab,var(--bg) 88%,transparent) 24%,var(--bg));
-margin-top:var(--s5)}
+background:linear-gradient(180deg,transparent,color-mix(in oklab,var(--bg) 88%,transparent) 24%,var(--bg));margin-top:var(--s5)}
 .footer-grid{display:grid;grid-template-columns:1fr auto;gap:.65rem}
-.pbtn{min-height:50px;border:0;border-radius:16px;font-weight:800;
-background:var(--pr);color:#fff;box-shadow:var(--rmd);font-size:var(--base)}
-.sbtn{min-height:50px;padding:0 1rem;border-radius:16px;font-weight:800;border:0;
-background:var(--surf);color:var(--tx);border:1px solid color-mix(in oklab,var(--tx) 10%,transparent)}
+.pbtn{min-height:50px;border:0;border-radius:16px;font-weight:800;background:var(--pr);color:#fff;box-shadow:var(--rmd);font-size:var(--base)}
+.sbtn{min-height:50px;padding:0 1rem;border-radius:16px;font-weight:800;border:1px solid color-mix(in oklab,var(--tx) 10%,transparent);background:var(--surf);color:var(--tx)}
+.dbtn-danger{min-height:36px;padding:0 .85rem;border-radius:var(--rs);border:0;background:color-mix(in oklab,var(--err) 10%,var(--surf2));color:var(--err);font-size:var(--xs);font-weight:800}
+
 /* HISTORY */
-.hist-item{padding:.9rem 0;border-top:1px solid color-mix(in oklab,var(--tx) 8%,transparent);
-display:flex;justify-content:space-between;align-items:start;gap:var(--s3)}
+.hist-item{padding:.9rem 0;border-top:1px solid color-mix(in oklab,var(--tx) 8%,transparent);display:flex;flex-direction:column;gap:.4rem}
 .hist-item:first-child{border-top:0;padding-top:0}
-.hist-ex-list{margin-top:var(--s3);display:grid;gap:.4rem}
-.hist-ex{display:flex;justify-content:space-between;font-size:var(--xs);
-padding:.4rem .6rem;border-radius:var(--rs);background:var(--surf2)}
+.hist-row{display:flex;justify-content:space-between;align-items:center;gap:var(--s3)}
+
 /* SETTINGS */
 .field{margin-bottom:var(--s4)}
 .field label{display:block;font-size:var(--sm);font-weight:700;margin-bottom:.4rem;color:var(--txm)}
-.field input{width:100%;padding:.75rem;border-radius:var(--rs);
-border:1px solid color-mix(in oklab,var(--tx) 12%,transparent);background:var(--bg);color:var(--tx)}
+.field input{width:100%;padding:.75rem;border-radius:var(--rs);border:1px solid color-mix(in oklab,var(--tx) 12%,transparent);background:var(--bg);color:var(--tx)}
+
 /* LAYOUT */
 @media(min-width:760px){
 .layout{display:grid;grid-template-columns:280px 1fr;gap:var(--s5);align-items:start}
@@ -170,14 +158,9 @@ border:1px solid color-mix(in oklab,var(--tx) 12%,transparent);background:var(--
 .stack{display:grid;gap:var(--s4)}
 .tiny{font-size:var(--xs);color:var(--txm)}
 .muted{color:var(--txm)}
-.success{color:var(--ok)}
-.danger{color:var(--err)}
-/* AI LOADING */
-.ai-loading{display:flex;align-items:center;gap:var(--s3);padding:var(--s4);
-border-radius:var(--rm);background:color-mix(in oklab,var(--pr) 8%,var(--surf2));
-border:1px solid color-mix(in oklab,var(--pr) 20%,transparent)}
-.spinner{width:20px;height:20px;border:2.5px solid color-mix(in oklab,var(--pr) 30%,transparent);
-border-top-color:var(--pr);border-radius:50%;animation:spin .7s linear infinite}
+.ai-loading{display:flex;align-items:center;gap:var(--s3);padding:var(--s4);border-radius:var(--rm);
+background:color-mix(in oklab,var(--pr) 8%,var(--surf2));border:1px solid color-mix(in oklab,var(--pr) 20%,transparent)}
+.spinner{width:20px;height:20px;border:2.5px solid color-mix(in oklab,var(--pr) 30%,transparent);border-top-color:var(--pr);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
@@ -191,7 +174,7 @@ border-top-color:var(--pr);border-radius:50%;animation:spin .7s linear infinite}
         </div>
         <div class="title"><h1>Cali Flow</h1><p id="heroSubtitle">Spreman za trening.</p></div>
       </div>
-      <button class="ibtn" id="themeBtn" aria-label="Tema">🌙</button>
+      <button class="ibtn" id="themeBtn">🌙</button>
     </div>
     <div class="seg">
       <button class="active" data-s="train">Trening</button>
@@ -201,21 +184,20 @@ border-top-color:var(--pr);border-radius:50%;animation:spin .7s linear infinite}
     </div>
   </header>
 
-  <!-- TRENING -->
   <section id="train" class="sec active">
     <div class="hero">
       <div class="badge" id="heroBadge">Odaberi dan</div>
       <p style="margin:.7rem 0 0;font-size:var(--lg);font-weight:900;max-width:20ch" id="heroTitle">Skill prvo. Smeće van.</p>
-      <p class="muted" style="margin:.5rem 0 0;font-size:var(--sm);max-width:36ch" id="heroDesc">Označi svaku seriju. Timer kreće automatski.</p>
+      <p class="muted" style="margin:.5rem 0 0;font-size:var(--sm);max-width:36ch">Označi svaku seriju. Timer kreće automatski.</p>
       <div class="hero-grid">
         <div class="stat"><div class="lbl">Fokus danas</div><div class="val" id="hFocus">—</div></div>
-        <div class="stat"><div class="lbl">Ukupno tijd.</div><div class="val" id="hTime">0:00</div></div>
+        <div class="stat"><div class="lbl">Ukupno vrijm.</div><div class="val" id="hTime">0:00</div></div>
       </div>
     </div>
     <div class="layout">
       <aside class="sidebar-col">
         <div class="card"><h3>Odaberi dan</h3><div class="day-grid" id="dayBtns"></div></div>
-        <div class="card"><h3>Skala težine</h3><p class="muted" style="font-size:var(--sm)">1–2 prelagano · 3 taman · 4 teško · 5 raspad<br><br>App automatski prilagođava idući trening na temelju tvog ratinga i bilješki.</p></div>
+        <div class="card"><h3>Skala težine</h3><p class="muted" style="font-size:var(--sm)">1–2 prelagano · 3 taman · 4 teško · 5 raspad<br><br>App automatski prilagođava idući trening na temelju ratinga.</p></div>
       </aside>
       <main>
         <div class="pshell">
@@ -233,148 +215,158 @@ border-top-color:var(--pr);border-radius:50%;animation:spin .7s linear infinite}
     </div>
   </section>
 
-  <!-- PLAN -->
   <section id="plan" class="sec">
-    <div class="card">
-      <h2>Tjedni plan</h2>
-      <div id="planContent"></div>
-    </div>
-    <div class="card">
-      <h2>Pravila odmora</h2>
-      <p class="muted" style="font-size:var(--sm)">Skill holdovi (planche, frog): <strong>2–3 min</strong><br>Snaga (pull ups, pike): <strong>90 s</strong><br>Reps (squats, knees): <strong>60 s</strong><br>Mobility: <strong>40 s</strong></p>
+    <div class="card"><h2>Tjedni plan</h2><div id="planContent"></div></div>
+    <div class="card"><h2>Odmori po tipu</h2>
+      <p class="muted" style="font-size:var(--sm)">
+        Skill holdovi: <strong>2:30</strong> · Snaga: <strong>1:30</strong> · Reps: <strong>1:00</strong> · Mobility: <strong>0:40</strong>
+      </p>
     </div>
   </section>
 
-  <!-- LOG -->
   <section id="history" class="sec">
     <div class="card">
-      <h2>Povijest treninga</h2>
-      <p class="muted" style="font-size:var(--sm);margin-bottom:var(--s4)">Podaci se čuvaju u oblaku. Otvoreno s bilo kojeg uređaja.</p>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--s4)">
+        <h2 style="margin:0">Log treninga</h2>
+        <button class="dbtn-danger" id="deleteAllBtn">Obriši sve</button>
+      </div>
+      <p class="muted" style="font-size:var(--sm);margin-bottom:var(--s4)">Podaci su u oblaku. Vidljivo s bilo kojeg uređaja.</p>
       <div id="histList"><p class="muted">Učitavam...</p></div>
     </div>
   </section>
 
-  <!-- SETTINGS -->
   <section id="settings" class="sec">
     <div class="card">
       <h2>Postavke</h2>
       <div class="field">
         <label>Gemini API Key</label>
         <input type="password" id="geminiKey" placeholder="AIza..." autocomplete="off"/>
-        <p class="tiny" style="margin-top:.4rem">Dobij besplatni key na <a href="https://aistudio.google.com" target="_blank" style="color:var(--pr)">aistudio.google.com</a>. Sprema se samo lokalno u browser.</p>
+        <p class="tiny" style="margin-top:.4rem">Besplatni key na <a href="https://aistudio.google.com" target="_blank" style="color:var(--pr)">aistudio.google.com</a>. Sprema se samo lokalno u browser.</p>
       </div>
       <button class="pbtn" id="saveSettings" style="width:100%">Spremi</button>
-    </div>
-    <div class="card">
-      <h2>O aplikaciji</h2>
-      <p class="muted" style="font-size:var(--sm)">Trening log se sprema u Cloudflare D1. Adaptacija plana radi na temelju tvojih ratinga i bilješki uz pomoć Gemini AI.</p>
     </div>
   </section>
 </div>
 
 <script>
-// ─── CONFIG ──────────────────────────────────────────────────────────────────
+// ─── CONFIG ───────────────────────────────────────────────────────────────────
 const WORKER_URL = 'https://cali-tracker-api.aphep.workers.dev';
 const API_KEY    = 'cali-josip-2026';
+const REST       = { skill:150, strength:90, reps:60, hold:150, mobility:40 };
 
-// ─── REST TIMES (sekunde) ────────────────────────────────────────────────────
-const REST = { skill: 150, strength: 90, reps: 60, hold: 150, mobility: 40 };
+// ─── AUDIO ────────────────────────────────────────────────────────────────────
+let audioCtx = null;
+function unlockAudio(){
+  if(!audioCtx){ audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }
+  if(audioCtx.state==='suspended') audioCtx.resume();
+}
+function beep(freq=520, dur=0.12, vol=0.4, delay=0){
+  if(!audioCtx) return;
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.connect(g); g.connect(audioCtx.destination);
+  o.frequency.value = freq;
+  o.type = 'sine';
+  const t = audioCtx.currentTime + delay;
+  g.gain.setValueAtTime(0,t);
+  g.gain.linearRampToValueAtTime(vol, t+0.01);
+  g.gain.exponentialRampToValueAtTime(0.001, t+dur);
+  o.start(t); o.stop(t+dur+0.05);
+}
+function soundPrepStart(){ beep(380,0.15,0.3) }
+function soundHoldStart(){ beep(600,0.1,0.4); beep(750,0.15,0.4,0.12) }
+function soundHoldDone(){  beep(700,0.08,0.35); beep(700,0.08,0.35,0.1); beep(900,0.18,0.4,0.22) }
+function soundRestDone(){  beep(500,0.07,0.3); beep(620,0.07,0.3,0.1); beep(780,0.18,0.4,0.22) }
+function soundSetDone(){   beep(680,0.12,0.35) }
 
 // ─── WORKOUT DATA ─────────────────────────────────────────────────────────────
 const DEFAULT_WORKOUTS = {
-  fullbody: {
-    name:'Full body', subtitle:'Snaga, baza i minimum gluposti.', duration:'30–35 min', focus:'Snaga',
+  fullbody:{
+    name:'Full body',subtitle:'Snaga, baza i minimum gluposti.',duration:'30–35 min',focus:'Snaga',
     exercises:[
-      { id:'pike', name:'Pyke push ups', type:'strength', sets:[{target:'6 reps'},{target:'6 reps'},{target:'6 reps'},{target:'6 reps'}],
-        note:'Bez rest-pause. Ako staneš, serija je gotova.',
-        prog:{1:'Digni na 8 po seriji ili povisi noge.',2:'Digni na 7–8 reps.',3:'Zadrži, potvrdi formu.',4:'Ostani na istom, očisti formu.',5:'Spusti na 4–5 reps.'} },
-      { id:'pullups', name:'Pull ups', type:'strength', sets:[{target:'5 reps'},{target:'4 reps'},{target:'4 reps'},{target:'3 reps'}],
-        note:'Čista serija, ne grčenje za ego.',
-        prog:{1:'Dodaj 1–2 reps u svim serijama.',2:'Dodaj 1 rep.',3:'Zadrži dok sve serije ne budu čiste.',4:'Drži isto, odmori više.',5:'Radi 2–3 reps ili negativna ponavljanja.'} },
-      { id:'squat', name:'Squats / split squat', type:'reps', sets:[{target:'15 reps'},{target:'15 reps'},{target:'15 reps'}],
-        note:'Kad postane lagano, prijeđi na split squat.',
-        prog:{1:'Dodaj 3–5 reps ili idi na split squat.',2:'Dodaj 2 reps.',3:'Zadrži i kontroliraj tempo.',4:'Ostani na istom.',5:'Spusti na 10–12 reps.'} },
-      { id:'knees', name:'Knee raises', type:'reps', sets:[{target:'8 reps'},{target:'8 reps'},{target:'8 reps'}],
-        note:'Bolje 8 čistih nego 12 raspadnutih.',
-        prog:{1:'Dodaj 2 reps po seriji.',2:'Dodaj 1 rep.',3:'Zadrži.',4:'Ostani na istom.',5:'Smanji reps ili idi na lakšu varijantu.'} }
+      {id:'pike',name:'Pyke push ups',type:'strength',sets:[{target:'6 reps'},{target:'6 reps'},{target:'6 reps'},{target:'6 reps'}],
+       note:'Bez rest-pause. Ako staneš, serija je gotova.',
+       prog:{1:'Digni na 8 po seriji ili povisi noge.',2:'Digni na 7–8 reps.',3:'Zadrži, potvrdi formu.',4:'Ostani na istom, očisti formu.',5:'Spusti na 4–5 reps.'}},
+      {id:'pullups',name:'Pull ups',type:'strength',sets:[{target:'5 reps'},{target:'4 reps'},{target:'4 reps'},{target:'3 reps'}],
+       note:'Čista serija, ne grčenje za ego.',
+       prog:{1:'Dodaj 1–2 reps u svim serijama.',2:'Dodaj 1 rep.',3:'Zadrži dok sve serije ne budu čiste.',4:'Drži isto, odmori više.',5:'Radi 2–3 reps ili negativna ponavljanja.'}},
+      {id:'squat',name:'Squats / split squat',type:'reps',sets:[{target:'15 reps'},{target:'15 reps'},{target:'15 reps'}],
+       note:'Kad postane lagano, prijeđi na split squat.',
+       prog:{1:'Dodaj 3–5 reps ili idi na split squat.',2:'Dodaj 2 reps.',3:'Zadrži i kontroliraj tempo.',4:'Ostani na istom.',5:'Spusti na 10–12 reps.'}},
+      {id:'knees',name:'Knee raises',type:'reps',sets:[{target:'8 reps'},{target:'8 reps'},{target:'8 reps'}],
+       note:'Bolje 8 čistih nego 12 raspadnutih.',
+       prog:{1:'Dodaj 2 reps po seriji.',2:'Dodaj 1 rep.',3:'Zadrži.',4:'Ostani na istom.',5:'Smanji reps.'}}
     ]
   },
-  skill: {
-    name:'Skill', subtitle:'Planche fokus, manje ego volumena.', duration:'30–35 min', focus:'Planche',
+  skill:{
+    name:'Skill',subtitle:'Planche fokus, manje ego volumena.',duration:'30–35 min',focus:'Planche',
     exercises:[
-      { id:'planche', name:'Planche lean / planche plank', type:'skill', sets:[{target:'8s hold'},{target:'8s hold'},{target:'8s hold'},{target:'8s hold'},{target:'8s hold'},{target:'8s hold'}],
-        note:'Ne lovi minute. Lovi jači lean i bolju liniju.',
-        prog:{1:'Povećaj lean ili dodaj 2 s po seriji.',2:'Dodaj 1–2 s.',3:'Zadrži, potvrdi kvalitetu.',4:'Ne diži sekunde.',5:'Skrati hold na 6 s.'} },
-      { id:'hollow', name:'Hollow body hold', type:'skill', sets:[{target:'20s hold'},{target:'20s hold'},{target:'20s hold'}],
-        note:'Teža pozicija = niže noge, ne više sekundi.',
-        prog:{1:'Spusti noge niže ili dodaj 5 s.',2:'Dodaj 3 s.',3:'Zadrži.',4:'Ostani na istom.',5:'Savij koljena više.'} },
-      { id:'reverse', name:'Reverse plank', type:'skill', sets:[{target:'30s hold'},{target:'30s hold'},{target:'30s hold'}],
-        note:'65 s je overkill ako forma pliva.',
-        prog:{1:'Dodaj 5 s ili jači glute squeeze.',2:'Dodaj 3–4 s.',3:'Zadrži.',4:'Ostani i očisti liniju.',5:'Skrati na 20–25 s.'} },
-      { id:'frog', name:'Frog hold', type:'skill', sets:[{target:'15s hold'},{target:'15s hold'},{target:'15s hold'}],
-        note:'Cilj je stabilnost, ne duga patnja.',
-        prog:{1:'Dodaj 3 s ili težju varijantu.',2:'Dodaj 2 s.',3:'Zadrži.',4:'Drži dok ne prestane padanje.',5:'Skrati hold.'} },
-      { id:'hiphinge', name:'Bird-dog / glute bridge', type:'reps', sets:[{target:'10 reps'},{target:'10 reps'},{target:'10 reps'}],
-        note:'Neutralna kralježnica. Kontrola kukova.',
-        prog:{1:'Dodaj 2 reps ili sporiji tempo.',2:'Dodaj 1 rep.',3:'Zadrži.',4:'Ostani isto.',5:'Smanji opseg.'} }
+      {id:'planche',name:'Planche lean / planche plank',type:'skill',sets:[{target:'8s'},{target:'8s'},{target:'8s'},{target:'8s'},{target:'8s'},{target:'8s'}],
+       note:'Ne lovi minute. Lovi jači lean i bolju liniju.',
+       prog:{1:'Povećaj lean ili dodaj 2 s.',2:'Dodaj 1–2 s.',3:'Zadrži, potvrdi kvalitetu.',4:'Ne diži sekunde.',5:'Skrati hold na 6 s.'}},
+      {id:'hollow',name:'Hollow body hold',type:'skill',sets:[{target:'20s'},{target:'20s'},{target:'20s'}],
+       note:'Teža pozicija = niže noge, ne više sekundi.',
+       prog:{1:'Spusti noge niže ili dodaj 5 s.',2:'Dodaj 3 s.',3:'Zadrži.',4:'Ostani na istom.',5:'Savij koljena više.'}},
+      {id:'reverse',name:'Reverse plank',type:'skill',sets:[{target:'30s'},{target:'30s'},{target:'30s'}],
+       note:'65 s je overkill ako forma pliva.',
+       prog:{1:'Dodaj 5 s ili jači glute squeeze.',2:'Dodaj 3–4 s.',3:'Zadrži.',4:'Ostani i očisti liniju.',5:'Skrati na 20–25 s.'}},
+      {id:'frog',name:'Frog hold',type:'skill',sets:[{target:'15s'},{target:'15s'},{target:'15s'}],
+       note:'Cilj je stabilnost, ne duga patnja.',
+       prog:{1:'Dodaj 3 s ili težju varijantu.',2:'Dodaj 2 s.',3:'Zadrži.',4:'Drži dok ne prestane padanje.',5:'Skrati hold.'}},
+      {id:'hiphinge',name:'Bird-dog / glute bridge',type:'reps',sets:[{target:'10 reps'},{target:'10 reps'},{target:'10 reps'}],
+       note:'Neutralna kralježnica. Kontrola kukova.',
+       prog:{1:'Dodaj 2 reps ili sporiji tempo.',2:'Dodaj 1 rep.',3:'Zadrži.',4:'Ostani isto.',5:'Smanji opseg.'}}
     ]
   },
-  mobility: {
-    name:'Mobility', subtitle:'Konkretan recovery, ne generičko mahanje rukama.', duration:'20–30 min', focus:'Mobilnost',
+  mobility:{
+    name:'Mobility',subtitle:'Konkretan recovery, ne generičko mahanje rukama.',duration:'20–30 min',focus:'Mobilnost',
     exercises:[
-      { id:'wristcircles', name:'Wrist circles', type:'mobility', sets:[{target:'20s ↻'},{target:'20s ↺'},{target:'15 otvaranja'}],
-        note:'Kruži zapešćima, pa stisni i otvori šake. Priprema za planche.',
-        prog:{1:'Dodaj 5–10 s ili lagani lean.',2:'Dodaj 5 s.',3:'Zadrži.',4:'Radi sporije.',5:'Skrati trajanje.'} },
-      { id:'wallslides', name:'Wall slides', type:'mobility', sets:[{target:'8 reps'},{target:'8 reps'},{target:'8 reps'}],
-        note:'Leđa na zid, iz W u Y. Rebra ne smiju iskočiti.',
-        prog:{1:'Dodaj 2 reps ili sporiji tempo.',2:'Dodaj 1 rep.',3:'Zadrži.',4:'Smanji opseg.',5:'Skrati opseg pokreta.'} },
-      { id:'deepsquat', name:'Deep squat hold', type:'mobility', sets:[{target:'20s hold'},{target:'30s hold'},{target:'30s hold'}],
-        note:'Pete dolje ako možeš. Laktovima guraj koljena van.',
-        prog:{1:'Dodaj 5 s ili idi dublje.',2:'Dodaj 3–5 s.',3:'Zadrži.',4:'Drži pete i položaj.',5:'Podmetni nešto pod pete.'} },
-      { id:'hipflexor', name:'Kneeling hip flexor stretch', type:'mobility', sets:[{target:'30s L'},{target:'30s D'},{target:'45s L/D'}],
-        note:'Stisni gluteus noge koja kleči. Ne izvijaš donja leđa.',
-        prog:{1:'Dodaj 5–10 s po strani.',2:'Dodaj 5 s.',3:'Zadrži.',4:'Smanjii forsiranje.',5:'Skrati trajanje.'} },
-      { id:'birddog', name:'Bird-dog', type:'mobility', sets:[{target:'6/6 reps'},{target:'8/8 reps'},{target:'8/8 reps'}],
-        note:'Suprotna ruka i noga, 2–3 s zadrška. Nema uvrtanja.',
-        prog:{1:'Dodaj 2 reps ili dužu zadršku.',2:'Dodaj 1 rep.',3:'Zadrži.',4:'Uspori pokret.',5:'Radi samo nogu ili samo ruku.'} }
+      {id:'wristcircles',name:'Wrist circles',type:'mobility',sets:[{target:'20s ↻'},{target:'20s ↺'},{target:'15 otvaranja'}],
+       note:'Kruži zapešćima pa stisni i otvori šake. Priprema za planche.',
+       prog:{1:'Dodaj 5–10 s.',2:'Dodaj 5 s.',3:'Zadrži.',4:'Radi sporije.',5:'Skrati trajanje.'}},
+      {id:'wallslides',name:'Wall slides',type:'mobility',sets:[{target:'8 reps'},{target:'8 reps'},{target:'8 reps'}],
+       note:'Leđa na zid, iz W u Y. Rebra ne smiju iskočiti.',
+       prog:{1:'Dodaj 2 reps ili sporiji tempo.',2:'Dodaj 1 rep.',3:'Zadrži.',4:'Smanji opseg.',5:'Skrati opseg pokreta.'}},
+      {id:'deepsquat',name:'Deep squat hold',type:'mobility',sets:[{target:'20s'},{target:'30s'},{target:'30s'}],
+       note:'Pete dolje ako možeš. Laktovima guraj koljena van.',
+       prog:{1:'Dodaj 5 s ili idi dublje.',2:'Dodaj 3–5 s.',3:'Zadrži.',4:'Drži pete i položaj.',5:'Podmetni nešto pod pete.'}},
+      {id:'hipflexor',name:'Kneeling hip flexor stretch',type:'mobility',sets:[{target:'30s L'},{target:'30s D'},{target:'45s L/D'}],
+       note:'Stisni gluteus noge koja kleči. Ne izvijaš donja leđa.',
+       prog:{1:'Dodaj 5–10 s po strani.',2:'Dodaj 5 s.',3:'Zadrži.',4:'Smanji forsiranje.',5:'Skrati trajanje.'}},
+      {id:'birddog',name:'Bird-dog',type:'mobility',sets:[{target:'6/6 reps'},{target:'8/8 reps'},{target:'8/8 reps'}],
+       note:'Suprotna ruka i noga, 2–3 s zadrška. Nema uvrtanja.',
+       prog:{1:'Dodaj 2 reps ili dužu zadršku.',2:'Dodaj 1 rep.',3:'Zadrži.',4:'Uspori pokret.',5:'Radi samo nogu ili samo ruku.'}}
     ]
   }
 };
 
 // ─── STATE ────────────────────────────────────────────────────────────────────
-let workouts   = JSON.parse(localStorage.getItem('cf_workouts') || 'null') || deepClone(DEFAULT_WORKOUTS);
-let currentDay = 'fullbody';
-let setsDone   = {};   // {exId: [true/false, ...]}
-let ratings    = {};   // {exId: number}
-let notes      = {};   // {exId: string}
-let holdResults= {};   // {exId: [secs, ...]}
-let timerState = null; // {type:'rest'|'hold'|'prep', exId, setIdx, remaining, interval}
+let workouts     = JSON.parse(localStorage.getItem('cf_workouts')||'null') || deepClone(DEFAULT_WORKOUTS);
+let currentDay   = 'fullbody';
+let setsDone     = {};
+let ratings      = {};
+let notes        = {};
+let holdResults  = {};
+let activePhase  = {}; // {exId_si: {type, interval, fillEl, timeEl}}
 let workoutStart = null;
 let totalElapsed = 0;
 let elapsedInterval = null;
-let theme = localStorage.getItem('cf_theme') || (window.matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
+let theme = localStorage.getItem('cf_theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
 
 function deepClone(o){ return JSON.parse(JSON.stringify(o)) }
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 applyTheme(theme);
-document.getElementById('geminiKey').value = localStorage.getItem('cf_gemini') || '';
-renderDayBtns();
-renderExercises();
-renderPlan();
-loadHistory();
+document.getElementById('geminiKey').value = localStorage.getItem('cf_gemini')||'';
+renderDayBtns(); renderExercises(); renderPlan(); loadHistory();
 
-document.getElementById('themeBtn').onclick = () => applyTheme(theme==='dark'?'light':'dark');
-document.getElementById('saveSettings').onclick = () => {
-  localStorage.setItem('cf_gemini', document.getElementById('geminiKey').value.trim());
-  alert('Spremljeno.');
-};
-document.getElementById('finishBtn').onclick = finishWorkout;
-document.getElementById('resetBtn').onclick = () => {
-  if(!confirm('Resetirati trening?')) return;
-  resetDay();
-};
-document.querySelectorAll('.seg button').forEach(b => b.onclick = () => {
+document.getElementById('themeBtn').onclick       = () => { unlockAudio(); applyTheme(theme==='dark'?'light':'dark'); };
+document.getElementById('saveSettings').onclick   = () => { localStorage.setItem('cf_gemini',document.getElementById('geminiKey').value.trim()); alert('Spremljeno.'); };
+document.getElementById('finishBtn').onclick      = finishWorkout;
+document.getElementById('resetBtn').onclick       = () => { if(!confirm('Resetirati trening?')) return; resetDay(); };
+document.getElementById('deleteAllBtn').onclick   = deleteAll;
+document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{
+  unlockAudio();
   document.querySelectorAll('.seg button').forEach(x=>x.classList.remove('active'));
   b.classList.add('active');
   document.querySelectorAll('.sec').forEach(x=>x.classList.remove('active'));
@@ -383,120 +375,142 @@ document.querySelectorAll('.seg button').forEach(b => b.onclick = () => {
 });
 
 function applyTheme(t){
-  theme=t;
-  document.documentElement.setAttribute('data-theme',t);
+  theme=t; document.documentElement.setAttribute('data-theme',t);
   localStorage.setItem('cf_theme',t);
-  document.getElementById('themeBtn').textContent = t==='dark'?'☀️':'🌙';
+  document.getElementById('themeBtn').textContent=t==='dark'?'☀️':'🌙';
 }
 
 // ─── DAY BUTTONS ──────────────────────────────────────────────────────────────
 function renderDayBtns(){
-  const c = document.getElementById('dayBtns');
-  c.innerHTML = Object.entries(workouts).map(([id,day])=>`
+  const c=document.getElementById('dayBtns');
+  c.innerHTML=Object.entries(workouts).map(([id,day])=>`
     <button class="dbtn ${id===currentDay?'active':''}" data-d="${id}">
       <span><strong>${day.name}</strong><div class="tiny">${day.duration} · ${day.subtitle}</div></span>
       <span class="tiny">${completedSets(id)}/${totalSets(id)} ser.</span>
     </button>`).join('');
-  c.querySelectorAll('.dbtn').forEach(b=>b.onclick=()=>{ currentDay=b.dataset.d; renderDayBtns(); renderExercises(); });
+  c.querySelectorAll('.dbtn').forEach(b=>b.onclick=()=>{ unlockAudio(); currentDay=b.dataset.d; renderDayBtns(); renderExercises(); });
 }
 function totalSets(dayId){ return workouts[dayId].exercises.reduce((a,e)=>a+e.sets.length,0) }
-function completedSets(dayId){ let n=0; workouts[dayId].exercises.forEach(e=>{ (setsDone[e.id]||[]).forEach(v=>{ if(v)n++ }) }); return n }
+function completedSets(dayId){ let n=0; workouts[dayId].exercises.forEach(e=>{ (setsDone[e.id]||[]).forEach(v=>{ if(v)n++ }); }); return n }
 
 // ─── PROGRESS ─────────────────────────────────────────────────────────────────
 function updateProgress(){
-  const day = workouts[currentDay];
-  const total = totalSets(currentDay);
-  const done  = completedSets(currentDay);
-  const pct   = total ? Math.round(done/total*100) : 0;
-  document.getElementById('pText').textContent = `${done} / ${total} serija`;
-  document.getElementById('pPct').textContent  = `${pct}%`;
-  document.getElementById('pBar').style.width  = `${pct}%`;
-  document.getElementById('hFocus').textContent = day.focus;
-  document.getElementById('heroBadge').textContent = day.name;
-  document.getElementById('heroTitle').textContent = day.subtitle;
+  const day=workouts[currentDay];
+  const total=totalSets(currentDay), done=completedSets(currentDay);
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById('pText').textContent=`${done} / ${total} serija`;
+  document.getElementById('pPct').textContent=`${pct}%`;
+  document.getElementById('pBar').style.width=`${pct}%`;
+  document.getElementById('hFocus').textContent=day.focus;
+  document.getElementById('heroBadge').textContent=day.name;
+  document.getElementById('heroTitle').textContent=day.subtitle;
   renderDayBtns();
 }
 
-// ─── ELAPSED TIME ─────────────────────────────────────────────────────────────
+// ─── ELAPSED ──────────────────────────────────────────────────────────────────
 function startElapsed(){
   if(elapsedInterval) return;
-  if(!workoutStart) workoutStart = Date.now() - totalElapsed*1000;
-  elapsedInterval = setInterval(()=>{
-    totalElapsed = Math.floor((Date.now()-workoutStart)/1000);
-    document.getElementById('hTime').textContent = fmt(totalElapsed);
+  if(!workoutStart) workoutStart=Date.now()-totalElapsed*1000;
+  elapsedInterval=setInterval(()=>{
+    totalElapsed=Math.floor((Date.now()-workoutStart)/1000);
+    document.getElementById('hTime').textContent=fmt(totalElapsed);
   },1000);
 }
 function fmt(s){ return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}` }
 
-// ─── TIMER ────────────────────────────────────────────────────────────────────
-function killTimer(){
-  if(timerState){ clearInterval(timerState.interval); timerState=null; }
-  document.querySelectorAll('.timer-bar').forEach(el=>el.remove());
+// ─── PHASE SLIDER ─────────────────────────────────────────────────────────────
+function killPhase(key){
+  if(activePhase[key]){ clearInterval(activePhase[key].interval); delete activePhase[key]; }
+}
+function killAllPhases(exId){
+  Object.keys(activePhase).filter(k=>k.startsWith(exId+'_')).forEach(k=>killPhase(k));
 }
 
-function startTimer(type, exId, setIdx, seconds, onDone){
-  killTimer();
-  const bar = document.createElement('div');
-  bar.className = `timer-bar ${type}`;
-  bar.dataset.timerFor = exId;
-  const labels = { rest:'Odmor', prep:'Priprema', hold:'Hold' };
-  bar.innerHTML = `
-    <div class="timer-num" id="tnum_${exId}_${setIdx}">${seconds}</div>
-    <div class="timer-label">${labels[type]}${type==='hold'?' — drži poziciju':''}</div>
-    <button class="timer-skip" id="tskip_${exId}_${setIdx}">Preskoči</button>`;
-  const card = document.querySelector(`[data-ex="${exId}"]`);
-  if(card) card.appendChild(bar);
-  let rem = seconds;
-  timerState = {
-    type, exId, setIdx, remaining: rem,
-    interval: setInterval(()=>{
-      rem--;
-      const el = document.getElementById(`tnum_${exId}_${setIdx}`);
-      if(el) el.textContent = rem;
-      if(rem<=0){ killTimer(); onDone && onDone(); }
-    },1000)
+function runPhase(exId, si, type, totalSec, onDone){
+  const key=`${exId}_${si}`;
+  killPhase(key);
+  const wrapId=`phase_${exId}_${si}`;
+  let wrap=document.getElementById(wrapId);
+  if(!wrap) return;
+
+  const fillEl=wrap.querySelector('.phase-bar-fill');
+  const labelEl=wrap.querySelector('.phase-label');
+  const timeEl=wrap.querySelector('.phase-time');
+  const skipEl=wrap.querySelector('.phase-skip');
+
+  // reset classes
+  fillEl.className=`phase-bar-fill ${type}`;
+  fillEl.style.width='0%';
+  labelEl.className=`phase-label ${type}`;
+  const labels={prep:'Pripremi se',hold:'Drži!',rest:'Odmor'};
+  labelEl.textContent=labels[type];
+
+  let elapsed=0;
+  const tick=()=>{
+    elapsed++;
+    const pct=Math.min(elapsed/totalSec*100,100);
+    fillEl.style.width=`${pct}%`;
+    timeEl.textContent=fmt(totalSec-elapsed);
+    if(elapsed>=totalSec){ killPhase(key); onDone&&onDone(); }
   };
-  document.getElementById(`tskip_${exId}_${setIdx}`)?.addEventListener('click',()=>{ killTimer(); onDone && onDone(); });
+  timeEl.textContent=fmt(totalSec);
+  activePhase[key]={ interval:setInterval(tick,1000) };
+  skipEl.onclick=()=>{ killPhase(key); onDone&&onDone(); };
 }
 
 // ─── EXERCISES ────────────────────────────────────────────────────────────────
 function renderExercises(){
-  const day = workouts[currentDay];
-  const c   = document.getElementById('exList');
-  c.innerHTML = '';
+  const day=workouts[currentDay];
+  const c=document.getElementById('exList');
+  c.innerHTML='';
   day.exercises.forEach((ex,ei)=>{
-    const done  = (setsDone[ex.id]||[]).filter(Boolean).length;
-    const total = ex.sets.length;
-    const allDone = done >= total;
-    const isActive = !allDone && (ei===0 || (setsDone[day.exercises[ei-1].id]||[]).filter(Boolean).length >= day.exercises[ei-1].sets.length);
-    const div = document.createElement('article');
-    div.className = `ex-card ${allDone?'done':''} ${isActive&&!allDone?'active-ex':''}`;
-    div.dataset.ex = ex.id;
-    const ratingVal = ratings[ex.id] || 0;
-    const noteVal   = notes[ex.id]   || '';
-    const advice    = getAdvice(ex, ratingVal, allDone);
-    const isHold    = ex.type==='skill'||ex.type==='hold';
-    div.innerHTML = `
+    const done=(setsDone[ex.id]||[]).filter(Boolean).length;
+    const total=ex.sets.length;
+    const allDone=done>=total;
+    const prevDone=ei===0||(setsDone[day.exercises[ei-1].id]||[]).filter(Boolean).length>=day.exercises[ei-1].sets.length;
+    const isActive=!allDone&&prevDone;
+    const ratingVal=ratings[ex.id]||0;
+    const noteVal=notes[ex.id]||'';
+    const advice=getAdvice(ex,ratingVal,allDone);
+    const isHold=ex.type==='skill'||ex.type==='hold'||ex.type==='mobility'&&ex.sets[0]?.target.includes('s');
+
+    const div=document.createElement('article');
+    div.className=`ex-card ${allDone?'done':''} ${isActive&&!allDone?'active-ex':''}`;
+    div.dataset.ex=ex.id;
+
+    div.innerHTML=`
       <div class="ex-header">
         <div>
           <div class="ex-title">${ei+1}. ${ex.name}</div>
           <div class="ex-target">${ex.type.toUpperCase()} · ${total} serije/a</div>
         </div>
-        <span class="badge ${allDone?'ok':''}">${allDone?'✓':done+'/'+total}</span>
+        <span class="badge ${allDone?'ok':''}">${allDone?'✓ Gotovo':done+'/'+total}</span>
       </div>
       ${ex.note?`<div class="ex-note">${ex.note}</div>`:''}
       <div class="sets-grid" id="sets_${ex.id}">
         ${ex.sets.map((s,si)=>{
-          const sdone = (setsDone[ex.id]||[])[si];
-          const isPrevDone = si===0 || (setsDone[ex.id]||[])[si-1];
-          return `<div class="set-row ${sdone?'set-done':''} ${!sdone&&isPrevDone&&!allDone?'set-active':''}" data-set="${si}">
-            <span class="set-num">S${si+1}</span>
-            <span class="set-target">${s.target}</span>
-            ${sdone
-              ? `<span class="set-done-mark">✓</span>`
-              : `<button class="set-btn" data-ex="${ex.id}" data-si="${si}" data-hold="${isHold}" ${!isPrevDone&&si>0?'disabled':''}>
-                  ${isHold?'▶ Start hold':'Odrađeno'}
-                </button>`}
+          const sdone=(setsDone[ex.id]||[])[si];
+          const isPrevDone=si===0||(setsDone[ex.id]||[])[si-1];
+          const holdSec=parseHoldSec(s.target);
+          const needsHoldTimer=isHold&&holdSec>0;
+          return `<div class="set-row ${sdone?'set-done':''} ${!sdone&&isPrevDone&&!allDone?'set-active':''}" id="setrow_${ex.id}_${si}">
+            <div class="set-top">
+              <span class="set-num">S${si+1}</span>
+              <span class="set-target">${s.target}</span>
+              ${sdone
+                ?`<span class="set-done-mark">✓</span>`
+                :`<button class="set-btn" data-ex="${ex.id}" data-si="${si}" data-hold="${needsHoldTimer}" data-holdsec="${holdSec}" ${!isPrevDone&&si>0?'disabled':''}>
+                    ${needsHoldTimer?'▶ Hold':'Odrađeno'}
+                  </button>`}
+            </div>
+            <div class="phase-wrap" id="phase_${ex.id}_${si}" style="${sdone?'display:none':''}">
+              <div class="phase-bar-bg"><div class="phase-bar-fill" style="width:0%"></div></div>
+              <div class="phase-info">
+                <span class="phase-label muted">—</span>
+                <span class="phase-time muted"></span>
+                <button class="phase-skip" style="visibility:hidden">Preskoči</button>
+              </div>
+            </div>
           </div>`;
         }).join('')}
       </div>
@@ -513,84 +527,100 @@ function renderExercises(){
     `;
     c.appendChild(div);
   });
-  bindExerciseEvents();
+  bindExEvents();
   updateProgress();
 }
 
-function bindExerciseEvents(){
-  // Set buttons
+function bindExEvents(){
   document.querySelectorAll('.set-btn').forEach(btn=>{
-    btn.onclick = () => {
-      const exId = btn.dataset.ex;
-      const si   = parseInt(btn.dataset.si);
-      const isHold = btn.dataset.hold==='true';
-      const ex   = workouts[currentDay].exercises.find(e=>e.id===exId);
-      const restSec = REST[ex.type] || 90;
+    btn.onclick=()=>{
+      unlockAudio();
+      const exId=btn.dataset.ex, si=parseInt(btn.dataset.si);
+      const isHold=btn.dataset.hold==='true', holdSec=parseInt(btn.dataset.holdsec)||20;
+      const ex=workouts[currentDay].exercises.find(e=>e.id===exId);
+      const restSec=REST[ex.type]||90;
       if(!workoutStart) startElapsed();
+
+      // disable button immediately
+      btn.disabled=true;
+      const phaseWrap=document.getElementById(`phase_${exId}_${si}`);
+      if(phaseWrap){ phaseWrap.querySelector('.phase-skip').style.visibility='visible'; }
+
       if(isHold){
-        const holdSec = parseHoldTarget(ex.sets[si].target);
-        startTimer('prep', exId, si, 5, ()=>{
-          startTimer('hold', exId, si, holdSec, ()=>{
-            markSetDone(exId, si);
-            holdResults[exId] = holdResults[exId] || [];
-            holdResults[exId][si] = holdSec;
-            startTimer('rest', exId, si, restSec, ()=>{ renderExercises(); });
+        soundPrepStart();
+        runPhase(exId,si,'prep',5,()=>{
+          soundHoldStart();
+          runPhase(exId,si,'hold',holdSec,()=>{
+            soundHoldDone();
+            holdResults[exId]=holdResults[exId]||[];
+            holdResults[exId][si]=holdSec;
+            markSetDone(exId,si);
             renderExercises();
+            // start rest on next set row if exists
+            const nextSi=si+1;
+            const nextEx=workouts[currentDay].exercises.find(e=>e.id===exId);
+            if(nextSi<nextEx.sets.length){
+              const nextPhase=document.getElementById(`phase_${exId}_${nextSi}`);
+              if(nextPhase){ nextPhase.querySelector('.phase-skip').style.visibility='visible'; }
+              runPhase(exId,nextSi,'rest',restSec,()=>{ soundRestDone(); killPhase(`${exId}_${nextSi}`); });
+            }
           });
         });
-        renderExercises();
       } else {
-        markSetDone(exId, si);
-        if(!allSetsForExDone(exId)){
-          startTimer('rest', exId, si, restSec, ()=>{ renderExercises(); });
-        }
+        soundSetDone();
+        markSetDone(exId,si);
         renderExercises();
+        const nextSi=si+1;
+        const nextEx=workouts[currentDay].exercises.find(e=>e.id===exId);
+        if(nextSi<nextEx.sets.length){
+          const nextPhase=document.getElementById(`phase_${exId}_${nextSi}`);
+          if(nextPhase){ nextPhase.querySelector('.phase-skip').style.visibility='visible'; }
+          runPhase(exId,nextSi,'rest',restSec,()=>{ soundRestDone(); });
+        }
       }
     };
   });
-  // Rating buttons
+
   document.querySelectorAll('.rbtn').forEach(btn=>{
-    btn.onclick = () => { ratings[btn.dataset.rex]=parseInt(btn.dataset.l); renderExercises(); };
+    btn.onclick=()=>{ ratings[btn.dataset.rex]=parseInt(btn.dataset.l); renderExercises(); };
   });
-  // Note textarea
   document.querySelectorAll('[data-note]').forEach(ta=>{
-    ta.oninput = () => { notes[ta.dataset.note] = ta.value; };
+    ta.oninput=()=>{ notes[ta.dataset.note]=ta.value; };
   });
 }
 
-function markSetDone(exId, si){
-  setsDone[exId] = setsDone[exId] || [];
-  setsDone[exId][si] = true;
+function markSetDone(exId,si){
+  setsDone[exId]=setsDone[exId]||[];
+  setsDone[exId][si]=true;
 }
-function allSetsForExDone(exId){
-  const ex = workouts[currentDay].exercises.find(e=>e.id===exId);
+function allSetsDone(exId){
+  const ex=workouts[currentDay].exercises.find(e=>e.id===exId);
   if(!ex) return false;
-  return (setsDone[exId]||[]).filter(Boolean).length >= ex.sets.length;
+  return (setsDone[exId]||[]).filter(Boolean).length>=ex.sets.length;
 }
-
-function parseHoldTarget(target){
-  const m = target.match(/(\d+)\s*s/);
-  return m ? parseInt(m[1]) : 20;
+function parseHoldSec(target){
+  const m=target.match(/^(\d+)\s*s/);
+  return m?parseInt(m[1]):0;
 }
-
-function getAdvice(ex, rating, done){
-  if(!done || !rating) return '';
-  const p = ex.prog[rating] || ex.prog[3];
-  return p;
+function getAdvice(ex,rating,done){
+  if(!done||!rating) return '';
+  return ex.prog[rating]||ex.prog[3]||'';
 }
 
 // ─── PLAN ─────────────────────────────────────────────────────────────────────
 function renderPlan(){
-  const days = [['fullbody','A','Ponedjeljak'],['skill','B','Srijeda'],['mobility','M','Petak']];
-  document.getElementById('planContent').innerHTML = days.map(([id,badge,day])=>{
-    const d = workouts[id];
+  const days=[['fullbody','A','Ponedjeljak'],['skill','B','Srijeda'],['mobility','M','Petak']];
+  document.getElementById('planContent').innerHTML=days.map(([id,badge,day])=>{
+    const d=workouts[id];
     return `<div style="padding:.9rem 0;border-top:1px solid color-mix(in oklab,var(--tx) 8%,transparent)">
       <div style="display:flex;justify-content:space-between;align-items:start">
         <div><strong>${day}</strong><div class="tiny">${d.name} · ${d.duration}</div></div>
         <span class="badge">${badge}</span>
       </div>
       <div style="margin-top:.5rem;display:grid;gap:.3rem">
-        ${d.exercises.map(e=>`<div class="hist-ex"><span>${e.name}</span><span class="muted">${e.sets.map(s=>s.target).join(', ')}</span></div>`).join('')}
+        ${d.exercises.map(e=>`<div style="display:flex;justify-content:space-between;font-size:var(--xs);padding:.4rem .6rem;border-radius:var(--rs);background:var(--surf2)">
+          <span>${e.name}</span><span class="muted">${e.sets.map(s=>s.target).join(' · ')}</span>
+        </div>`).join('')}
       </div>
     </div>`;
   }).join('');
@@ -598,86 +628,83 @@ function renderPlan(){
 
 // ─── HISTORY ──────────────────────────────────────────────────────────────────
 async function loadHistory(){
-  const el = document.getElementById('histList');
-  el.innerHTML = '<p class="muted">Učitavam...</p>';
+  const el=document.getElementById('histList');
+  el.innerHTML='<p class="muted">Učitavam...</p>';
   try {
-    const r = await cfFetch('/history?limit=30');
-    if(!r.length){ el.innerHTML = '<p class="muted">Još nema završenih treninga.</p>'; return; }
-    el.innerHTML = r.map(w=>`
-      <div class="hist-item" style="flex-direction:column;align-items:stretch">
-        <div style="display:flex;justify-content:space-between;align-items:center">
+    const r=await cfFetch('/history?limit=30');
+    if(!r.length){ el.innerHTML='<p class="muted">Još nema završenih treninga.</p>'; return; }
+    el.innerHTML=r.map(w=>`
+      <div class="hist-item">
+        <div class="hist-row">
           <strong>${w.day_name}</strong>
           <span class="badge">${new Date(w.created_at).toLocaleDateString('hr-HR')}</span>
         </div>
-        <div class="tiny" style="margin-top:.3rem">${w.exercises_completed}/${w.exercises_total} vježbi · prosjek težine ${w.avg_rating?.toFixed(1)||'—'} · ${fmt(w.total_duration_sec||0)}</div>
-        ${w.ai_summary?`<div class="advice" style="margin-top:.5rem"><strong>AI preporuka</strong>${w.ai_summary}</div>`:''}
+        <div class="tiny">${w.exercises_completed}/${w.exercises_total} vježbi · prosjek ${w.avg_rating?.toFixed(1)||'—'}/5 · ${fmt(w.total_duration_sec||0)}</div>
+        ${w.ai_summary?`<div class="advice"><strong>AI preporuka</strong>${w.ai_summary}</div>`:''}
+        <div><button class="dbtn-danger" data-del="${w.id}">Obriši</button></div>
       </div>`).join('');
+    el.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>deleteOne(parseInt(b.dataset.del)));
   } catch(e){
-    el.innerHTML = `<p class="danger">Greška učitavanja: ${e.message}</p>`;
+    el.innerHTML=`<p style="color:var(--err)">Greška: ${e.message}</p>`;
   }
 }
 
-// ─── FINISH WORKOUT ───────────────────────────────────────────────────────────
+async function deleteOne(id){
+  if(!confirm('Obrisati ovaj trening?')) return;
+  try { await cfFetch(`/log/${id}`,'DELETE'); loadHistory(); }
+  catch(e){ alert('Greška brisanja: '+e.message); }
+}
+async function deleteAll(){
+  if(!confirm('Obrisati SVE treninge? Nema povratka.')) return;
+  try { await cfFetch('/logs/all','DELETE'); loadHistory(); }
+  catch(e){ alert('Greška: '+e.message); }
+}
+
+// ─── FINISH ───────────────────────────────────────────────────────────────────
 async function finishWorkout(){
-  killTimer();
+  Object.keys(activePhase).forEach(k=>killPhase(k));
   clearInterval(elapsedInterval);
-  const day = workouts[currentDay];
-  const exDone = day.exercises.filter(e=>allSetsForExDone(e.id));
+  const day=workouts[currentDay];
+  const exDone=day.exercises.filter(e=>allSetsDone(e.id));
   if(!exDone.length){ alert('Nisi završio ni jednu vježbu.'); return; }
 
-  const avgRating = (() => {
-    const vals = day.exercises.map(e=>ratings[e.id]).filter(Boolean);
-    return vals.length ? vals.reduce((a,b)=>a+b,0)/vals.length : null;
-  })();
+  const ratingVals=day.exercises.map(e=>ratings[e.id]).filter(Boolean);
+  const avgRating=ratingVals.length?ratingVals.reduce((a,b)=>a+b,0)/ratingVals.length:null;
 
-  const exercises = day.exercises.map(e=>({
-    exercise_id: e.id,
-    exercise_name: e.name,
-    sets_completed: (setsDone[e.id]||[]).filter(Boolean).length,
-    avg_rating: ratings[e.id]||null,
-    max_hold_sec: holdResults[e.id]?Math.max(...holdResults[e.id]):null,
-    note: notes[e.id]||null,
-    sets: (setsDone[e.id]||[]).map((done,i)=>({
-      set_number: i+1,
-      reps_or_sec: parseTargetNum(e.sets[i]?.target),
-      rating: ratings[e.id]||null,
-      rest_sec: REST[e.type]||90
-    })).filter((_,i)=>(setsDone[e.id]||[])[i])
+  const exercises=day.exercises.map(e=>({
+    exercise_id:e.id, exercise_name:e.name,
+    sets_completed:(setsDone[e.id]||[]).filter(Boolean).length,
+    avg_rating:ratings[e.id]||null,
+    max_hold_sec:holdResults[e.id]?Math.max(...holdResults[e.id]):null,
+    note:notes[e.id]||null,
+    sets:(e.sets.map((_,i)=>({
+      set_number:i+1, reps_or_sec:parseTargetNum(e.sets[i]?.target),
+      rating:ratings[e.id]||null, rest_sec:REST[e.type]||90
+    })).filter((_,i)=>(setsDone[e.id]||[])[i]))
   }));
 
-  // AI summary
-  let aiSummary = null;
-  const geminiKey = localStorage.getItem('cf_gemini');
+  let aiSummary=null;
+  const geminiKey=localStorage.getItem('cf_gemini');
   if(geminiKey){
-    const summaryEl = document.getElementById('exList');
-    summaryEl.insertAdjacentHTML('beforeend',`<div class="ai-loading" id="aiLoad"><div class="spinner"></div><span>AI analizira trening...</span></div>`);
-    try {
-      aiSummary = await callGemini(geminiKey, day, exercises, avgRating);
-      document.getElementById('aiLoad')?.remove();
-    } catch(e){
-      document.getElementById('aiLoad')?.remove();
-      console.warn('Gemini error:', e);
-    }
+    const loader=document.createElement('div');
+    loader.className='ai-loading'; loader.id='aiLoad';
+    loader.innerHTML='<div class="spinner"></div><span>AI analizira trening...</span>';
+    document.getElementById('exList').appendChild(loader);
+    try { aiSummary=await callGemini(geminiKey,day,exercises,avgRating); }
+    catch(e){ console.warn('Gemini:',e); }
+    document.getElementById('aiLoad')?.remove();
   }
 
-  // Spremi u D1
   try {
-    await cfFetch('/log', 'POST', {
-      day_type: currentDay,
-      day_name: day.name,
-      total_duration_sec: totalElapsed,
-      exercises_completed: exDone.length,
-      exercises_total: day.exercises.length,
-      avg_rating: avgRating,
-      ai_summary: aiSummary,
-      exercises
+    await cfFetch('/log','POST',{
+      day_type:currentDay, day_name:day.name, total_duration_sec:totalElapsed,
+      exercises_completed:exDone.length, exercises_total:day.exercises.length,
+      avg_rating:avgRating, ai_summary:aiSummary, exercises
     });
-  } catch(e){ console.warn('Save error:', e); }
+  } catch(e){ console.warn('Save:',e); }
 
-  // Adaptiraj plan
-  adaptPlan(day, exercises, aiSummary);
-
-  alert(`Trening završen! ${fmt(totalElapsed)}\n\n${aiSummary||'Nema AI preporuke (dodaj Gemini key u postavkama).'}`);
+  adaptPlan(day,exercises);
+  alert(`Trening završen! ⏱ ${fmt(totalElapsed)}\n\n${aiSummary||'Dodaj Gemini key u ⚙️ za AI preporuku.'}`);
   resetDay();
   document.querySelectorAll('.seg button').forEach(b=>b.classList.remove('active'));
   document.querySelector('[data-s="history"]').classList.add('active');
@@ -687,76 +714,57 @@ async function finishWorkout(){
 }
 
 // ─── ADAPT PLAN ───────────────────────────────────────────────────────────────
-function adaptPlan(day, exercises, aiText){
+function adaptPlan(day, exercises){
   exercises.forEach(exLog=>{
-    const ex = day.exercises.find(e=>e.id===exLog.exercise_id);
-    if(!ex || !exLog.avg_rating) return;
-    const r = exLog.avg_rating;
-    const completedSetsCount = exLog.sets_completed;
-    const plannedSets = ex.sets.length;
-    // Ako nije završio sve serije, smanji target reps/sec za 25%
-    if(completedSetsCount < plannedSets){
-      ex.sets = ex.sets.map(s=>({...s, target: reduceTarget(s.target)}));
+    const ex=day.exercises.find(e=>e.id===exLog.exercise_id);
+    if(!ex||!exLog.avg_rating) return;
+    const r=exLog.avg_rating;
+    const completedCount=exLog.sets_completed;
+    const plannedCount=ex.sets.length;
+    if(completedCount<plannedCount){
+      ex.sets=ex.sets.map(s=>({...s,target:reduceTarget(s.target)}));
     } else if(r<=2){
-      ex.sets = ex.sets.map(s=>({...s, target: increaseTarget(s.target)}));
+      ex.sets=ex.sets.map(s=>({...s,target:increaseTarget(s.target)}));
     } else if(r>=5){
-      ex.sets = ex.sets.map(s=>({...s, target: reduceTarget(s.target)}));
-    }
-    // Ako AI preporuči specifičnu promjenu, označi bilješku na vježbi
-    if(aiText && aiText.toLowerCase().includes(ex.name.toLowerCase().split(' ')[0])){
-      ex.note = ex.note; // ostavi originalni note, AI summary je vidljiv u historiji
+      ex.sets=ex.sets.map(s=>({...s,target:reduceTarget(s.target)}));
     }
   });
-  localStorage.setItem('cf_workouts', JSON.stringify(workouts));
+  localStorage.setItem('cf_workouts',JSON.stringify(workouts));
   renderPlan();
 }
-
-function increaseTarget(target){
-  return target.replace(/(\d+)/, m => {
-    const n = parseInt(m);
-    const isTime = target.includes('s');
-    return isTime ? Math.round(n*1.15) : n+2;
-  });
+function increaseTarget(t){
+  return t.replace(/(\d+)/,m=>{ const n=parseInt(m); return t.includes('s')&&!t.includes('reps')?Math.round(n*1.15):n+2; });
 }
-function reduceTarget(target){
-  return target.replace(/(\d+)/, m => {
-    const n = parseInt(m);
-    const isTime = target.includes('s');
-    return isTime ? Math.max(5, Math.round(n*0.85)) : Math.max(1, n-2);
-  });
+function reduceTarget(t){
+  return t.replace(/(\d+)/,m=>{ const n=parseInt(m); return t.includes('s')&&!t.includes('reps')?Math.max(5,Math.round(n*0.85)):Math.max(1,n-2); });
 }
-function parseTargetNum(target){
-  if(!target) return null;
-  const m = target.match(/(\d+)/);
-  return m ? parseInt(m[1]) : null;
-}
+function parseTargetNum(t){ if(!t) return null; const m=t.match(/(\d+)/); return m?parseInt(m[1]):null; }
 
 // ─── GEMINI ───────────────────────────────────────────────────────────────────
-async function callGemini(key, day, exercises, avgRating){
-  const prompt = `Ti si iskusan calisthenics trener. Analiziraj ovaj trening i daj konkretnu, kratku preporuku za SLJEDEĆI trening (max 3 rečenice, na hrvatskom).
+async function callGemini(key,day,exercises,avgRating){
+  const prompt=`Ti si iskusan calisthenics trener. Analiziraj ovaj trening i daj konkretnu, kratku preporuku za SLJEDEĆI trening (max 3 rečenice, na hrvatskom jeziku).
 
 Dan: ${day.name}
-Ukupni prosjek težine: ${avgRating?.toFixed(1)||'—'}/5
+Prosjek težine: ${avgRating?.toFixed(1)||'—'}/5
 Vježbe:
 ${exercises.map(e=>`- ${e.exercise_name}: ${e.sets_completed} serija, rating ${e.avg_rating||'—'}/5${e.note?', bilješka: "'+e.note+'"':''}`).join('\n')}
 
-Fokusiraj se na što treba pojačati, što smanjiti i ako ima bilješka o boli ili problemu, stavi to kao prioritet.`;
+Fokusiraj se na što treba pojačati, što smanjiti. Ako ima bilješka o boli, stavi to kao prioritet.`;
 
-  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`, {
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({ contents:[{ parts:[{ text: prompt }] }] })
+  const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,{
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({contents:[{parts:[{text:prompt}]}]})
   });
-  if(!res.ok) throw new Error('Gemini API error: '+res.status);
-  const data = await res.json();
-  return data.candidates?.[0]?.content?.parts?.[0]?.text || null;
+  if(!res.ok) throw new Error('Gemini '+res.status);
+  const data=await res.json();
+  return data.candidates?.[0]?.content?.parts?.[0]?.text||null;
 }
 
 // ─── CF FETCH ─────────────────────────────────────────────────────────────────
-async function cfFetch(path, method='GET', body=null){
-  const opts = { method, headers:{ 'X-API-Key': API_KEY, 'Content-Type':'application/json' } };
-  if(body) opts.body = JSON.stringify(body);
-  const r = await fetch(WORKER_URL+path, opts);
+async function cfFetch(path,method='GET',body=null){
+  const opts={method,headers:{'X-API-Key':API_KEY,'Content-Type':'application/json'}};
+  if(body) opts.body=JSON.stringify(body);
+  const r=await fetch(WORKER_URL+path,opts);
   if(!r.ok) throw new Error('Worker '+r.status);
   return r.json();
 }
@@ -764,9 +772,9 @@ async function cfFetch(path, method='GET', body=null){
 // ─── RESET ────────────────────────────────────────────────────────────────────
 function resetDay(){
   setsDone={};ratings={};notes={};holdResults={};
-  killTimer();
-  clearInterval(elapsedInterval);
-  elapsedInterval=null;workoutStart=null;totalElapsed=0;
+  Object.keys(activePhase).forEach(k=>killPhase(k));
+  clearInterval(elapsedInterval); elapsedInterval=null;
+  workoutStart=null; totalElapsed=0;
   document.getElementById('hTime').textContent='0:00';
   renderExercises();
 }
