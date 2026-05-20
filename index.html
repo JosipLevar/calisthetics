@@ -783,13 +783,44 @@ async function cfFetch(path,method='GET',body=null){
 document.getElementById('exportBtn').onclick = async () => {
   const btn = document.getElementById('exportBtn');
   btn.textContent = 'Učitavam...'; btn.disabled = true;
-  let log = [];
+  let rawLog = [];
   try {
     const all = await cfFetch('/history?limit=30');
-    // filter last 7 days
     const cutoff = Date.now() - 7*24*60*60*1000;
-    log = all.filter(w => new Date(w.created_at).getTime() > cutoff);
-  } catch(e) { log = [{ error: 'Nije moguće učitati log: ' + e.message }]; }
+    rawLog = all.filter(w => new Date(w.created_at).getTime() > cutoff);
+  } catch(e) { rawLog = [{ error: 'Nije moguće učitati log: ' + e.message }]; }
+
+  // fetch details for each workout
+  const detailedLog = [];
+  for(const w of rawLog){
+    let details = null;
+    try {
+      const full = await cfFetch(`/history/${w.id}`);
+      details = {
+        exercises: (full.exercises||[]).map(ex => ({
+          exercise_id: ex.exercise_id,
+          name: ex.exercise_name,
+          avg_rating: ex.avg_rating,
+          sets_completed: ex.sets_completed,
+          max_hold_sec: ex.max_hold_sec,
+          note: ex.note,
+          sets: ex.sets
+        }))
+      };
+    } catch(e) {}
+    detailedLog.push({
+      id: w.id,
+      created_at: w.created_at,
+      day_type: w.day_type,
+      day_name: w.day_name,
+      total_duration_sec: w.total_duration_sec,
+      exercises_completed: w.exercises_completed,
+      exercises_total: w.exercises_total,
+      avg_rating: w.avg_rating,
+      ai_summary: w.ai_summary,
+      details
+    });
+  }
 
   const exportData = {
     exported_at: new Date().toISOString(),
@@ -817,59 +848,7 @@ document.getElementById('exportBtn').onclick = async () => {
         }))
       }
     },
-    workout_log: await Promise.all(log.map(async w => {
-      let details = null;
-      try {
-        const full = await cfFetch(`/history/${w.id}`);
-        details = {
-          exercises: full.exercises.map(ex => ({
-            exercise_id: ex.exercise_id,
-            name: ex.exercise_name,
-            avg_rating: ex.avg_rating,
-            sets_completed: ex.sets_completed,
-            max_hold_sec: ex.max_hold_sec,
-            note: ex.note,
-            sets: ex.sets
-          }))
-        };
-      } catch(e) {}
-      return {
-        id: w.id,
-        created_at: w.created_at,
-        day_type: w.day_type,
-        day_name: w.day_name,
-        total_duration_sec: w.total_duration_sec,
-        exercises_completed: w.exercises_completed,
-        exercises_total: w.exercises_total,
-        avg_rating: w.avg_rating,
-        ai_summary: w.ai_summary,
-        details
-      };
-    }))
-  };
-      fullbody: {
-        name: workouts.fullbody.name,
-        exercises: workouts.fullbody.exercises.map(e => ({
-          id: e.id, name: e.name, type: e.type,
-          sets: e.sets.map(s => s.target), note: e.note
-        }))
-      },
-      skill: {
-        name: workouts.skill.name,
-        exercises: workouts.skill.exercises.map(e => ({
-          id: e.id, name: e.name, type: e.type,
-          sets: e.sets.map(s => s.target), note: e.note
-        }))
-      },
-      mobility: {
-        name: workouts.mobility.name,
-        exercises: workouts.mobility.exercises.map(e => ({
-          id: e.id, name: e.name, type: e.type,
-          sets: e.sets.map(s => s.target), note: e.note
-        }))
-      }
-    },
-    workout_log: log
+    workout_log: detailedLog
   };
 
   const json = JSON.stringify(exportData, null, 2);
