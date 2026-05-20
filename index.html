@@ -236,14 +236,23 @@ background:color-mix(in oklab,var(--pr) 8%,var(--surf2));border:1px solid color-
   </section>
 
   <section id="settings" class="sec">
+
     <div class="card">
-      <h2>Postavke</h2>
-      <div class="field">
-        <label>Gemini API Key</label>
-        <input type="password" id="geminiKey" placeholder="AIza..." autocomplete="off"/>
-        <p class="tiny" style="margin-top:.4rem">Besplatni key na <a href="https://aistudio.google.com" target="_blank" style="color:var(--pr)">aistudio.google.com</a>. Sprema se samo lokalno u browser.</p>
+      <h2>Export treninga</h2>
+      <p class="muted" style="font-size:var(--sm);margin-bottom:var(--s4)">Exportaj zadnjih 7 dana treninga + trenutni plan. Pošalji JSON Perplexityju za tjedni coaching review.</p>
+      <button class="pbtn" id="exportBtn" style="width:100%;margin-bottom:var(--s3)">⬇ Export plan + log (JSON)</button>
+      <div id="exportOut" style="display:none">
+        <p class="tiny" style="margin-bottom:.5rem">Kopiraj cijeli tekst i pošalji Perplexityju:</p>
+        <textarea id="exportText" style="width:100%;min-height:160px;resize:vertical;border-radius:var(--rs);border:1px solid color-mix(in oklab,var(--tx) 12%,transparent);padding:.75rem;background:var(--bg);color:var(--tx);font-size:var(--xs);font-family:monospace" readonly></textarea>
+        <button class="sbtn" id="copyBtn" style="width:100%;margin-top:var(--s3)">📋 Kopiraj u clipboard</button>
       </div>
-      <button class="pbtn" id="saveSettings" style="width:100%">Spremi</button>
+    </div>
+    <div class="card">
+      <h2>Import plana</h2>
+      <p class="muted" style="font-size:var(--sm);margin-bottom:var(--s4)">Zalijepi JSON koji si dobio od Perplexityja. App će ažurirati sve vježbe, setove i targete.</p>
+      <textarea id="importText" placeholder='Zalijepi JSON ovdje...' style="width:100%;min-height:120px;resize:vertical;border-radius:var(--rs);border:1px solid color-mix(in oklab,var(--tx) 12%,transparent);padding:.75rem;background:var(--bg);color:var(--tx);font-size:var(--xs);font-family:monospace;margin-bottom:var(--s3)"></textarea>
+      <button class="pbtn" id="importBtn" style="width:100%">⬆ Primijeni novi plan</button>
+      <p class="tiny" id="importStatus" style="margin-top:.5rem"></p>
     </div>
   </section>
 </div>
@@ -357,11 +366,11 @@ function deepClone(o){ return JSON.parse(JSON.stringify(o)) }
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 applyTheme(theme);
-document.getElementById('geminiKey').value = localStorage.getItem('cf_gemini')||'';
+
 renderDayBtns(); renderExercises(); renderPlan(); loadHistory();
 
 document.getElementById('themeBtn').onclick       = () => { unlockAudio(); applyTheme(theme==='dark'?'light':'dark'); };
-document.getElementById('saveSettings').onclick   = () => { localStorage.setItem('cf_gemini',document.getElementById('geminiKey').value.trim()); alert('Spremljeno.'); };
+
 document.getElementById('finishBtn').onclick      = finishWorkout;
 document.getElementById('resetBtn').onclick       = () => { if(!confirm('Resetirati trening?')) return; resetDay(); };
 document.getElementById('deleteAllBtn').onclick   = deleteAll;
@@ -751,7 +760,7 @@ ${exercises.map(e=>`- ${e.exercise_name}: ${e.sets_completed} serija, rating ${e
 
 Fokusiraj se na što treba pojačati, što smanjiti. Ako ima bilješka o boli, stavi to kao prioritet.`;
 
-  const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`,{
+  const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,{
     method:'POST', headers:{'Content-Type':'application/json'},
     body:JSON.stringify({contents:[{parts:[{text:prompt}]}]})
   });
@@ -768,6 +777,124 @@ async function cfFetch(path,method='GET',body=null){
   if(!r.ok) throw new Error('Worker '+r.status);
   return r.json();
 }
+
+
+// ─── EXPORT ───────────────────────────────────────────────────────────────────
+document.getElementById('exportBtn').onclick = async () => {
+  const btn = document.getElementById('exportBtn');
+  btn.textContent = 'Učitavam...'; btn.disabled = true;
+  let log = [];
+  try {
+    const all = await cfFetch('/history?limit=30');
+    // filter last 7 days
+    const cutoff = Date.now() - 7*24*60*60*1000;
+    log = all.filter(w => new Date(w.created_at).getTime() > cutoff);
+  } catch(e) { log = [{ error: 'Nije moguće učitati log: ' + e.message }]; }
+
+  const exportData = {
+    exported_at: new Date().toISOString(),
+    period: 'zadnjih 7 dana',
+    current_plan: {
+      fullbody: {
+        name: workouts.fullbody.name,
+        exercises: workouts.fullbody.exercises.map(e => ({
+          id: e.id, name: e.name, type: e.type,
+          sets: e.sets.map(s => s.target), note: e.note
+        }))
+      },
+      skill: {
+        name: workouts.skill.name,
+        exercises: workouts.skill.exercises.map(e => ({
+          id: e.id, name: e.name, type: e.type,
+          sets: e.sets.map(s => s.target), note: e.note
+        }))
+      },
+      mobility: {
+        name: workouts.mobility.name,
+        exercises: workouts.mobility.exercises.map(e => ({
+          id: e.id, name: e.name, type: e.type,
+          sets: e.sets.map(s => s.target), note: e.note
+        }))
+      }
+    },
+    workout_log: log
+  };
+
+  const json = JSON.stringify(exportData, null, 2);
+  document.getElementById('exportText').value = json;
+  document.getElementById('exportOut').style.display = 'block';
+  btn.textContent = '⬇ Export plan + log (JSON)'; btn.disabled = false;
+};
+
+document.getElementById('copyBtn').onclick = () => {
+  const ta = document.getElementById('exportText');
+  ta.select(); ta.setSelectionRange(0,99999);
+  try {
+    navigator.clipboard.writeText(ta.value).then(() => {
+      document.getElementById('copyBtn').textContent = '✓ Kopirano!';
+      setTimeout(() => document.getElementById('copyBtn').textContent = '📋 Kopiraj u clipboard', 2000);
+    });
+  } catch(e) {
+    document.execCommand('copy');
+    document.getElementById('copyBtn').textContent = '✓ Kopirano!';
+    setTimeout(() => document.getElementById('copyBtn').textContent = '📋 Kopiraj u clipboard', 2000);
+  }
+};
+
+// ─── IMPORT ───────────────────────────────────────────────────────────────────
+document.getElementById('importBtn').onclick = () => {
+  const raw = document.getElementById('importText').value.trim();
+  const status = document.getElementById('importStatus');
+  if(!raw){ status.textContent = '⚠ Nema teksta za import.'; status.style.color='var(--warn)'; return; }
+  let data;
+  try { data = JSON.parse(raw); } catch(e) {
+    status.textContent = '✗ Nevažeći JSON. Provjeri copy/paste.';
+    status.style.color = 'var(--err)'; return;
+  }
+
+  // Support both full export format and bare workouts object
+  const plan = data.workouts || data;
+  const validDays = ['fullbody','skill','mobility'];
+  const hasValid = validDays.some(d => plan[d]?.exercises?.length > 0);
+  if(!hasValid){
+    status.textContent = '✗ JSON ne sadrži valjanu strukturu plana. Treba imati fullbody/skill/mobility.';
+    status.style.color = 'var(--err)'; return;
+  }
+
+  // Merge: only update exercises array for days that exist in import
+  validDays.forEach(day => {
+    if(!plan[day]?.exercises) return;
+    plan[day].exercises.forEach(importEx => {
+      const existing = workouts[day].exercises.find(e => e.id === importEx.id);
+      if(existing){
+        // Update sets targets
+        if(importEx.sets) existing.sets = importEx.sets.map(s => ({target: typeof s === 'string' ? s : s.target}));
+        // Update note if provided
+        if(importEx.note) existing.note = importEx.note;
+        // Update progression hints if provided
+        if(importEx.prog) existing.prog = importEx.prog;
+      } else if(importEx.id && importEx.name) {
+        // New exercise – append
+        workouts[day].exercises.push({
+          id: importEx.id, name: importEx.name,
+          type: importEx.type || 'reps',
+          sets: (importEx.sets||[]).map(s => ({target: typeof s==='string'?s:s.target})),
+          note: importEx.note || '',
+          prog: importEx.prog || {1:'Pojačaj.',2:'Pojačaj.',3:'Zadrži.',4:'Ostani.',5:'Smanji.'}
+        });
+      }
+    });
+    // Update name/subtitle if provided
+    if(plan[day].name) workouts[day].name = plan[day].name;
+    if(plan[day].subtitle) workouts[day].subtitle = plan[day].subtitle;
+  });
+
+  localStorage.setItem('cf_workouts', JSON.stringify(workouts));
+  renderDayBtns(); renderExercises(); renderPlan();
+  document.getElementById('importText').value = '';
+  status.textContent = '✓ Plan ažuriran! Promjene su odmah vidljive u Trening i Plan tabovima.';
+  status.style.color = 'var(--ok)';
+};
 
 // ─── RESET ────────────────────────────────────────────────────────────────────
 function resetDay(){
