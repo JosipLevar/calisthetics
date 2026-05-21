@@ -271,6 +271,7 @@ function unlockAudio(){
 }
 function beep(freq=520, dur=0.12, vol=0.4, delay=0){
   if(!audioCtx) return;
+  if(audioCtx.state==='suspended') audioCtx.resume();
   const o = audioCtx.createOscillator();
   const g = audioCtx.createGain();
   o.connect(g); g.connect(audioCtx.destination);
@@ -495,7 +496,8 @@ function renderExercises(){
         </div>
         <span class="badge ${allDone?'ok':''}">${allDone?'✓ Gotovo':done+'/'+total}</span>
       </div>
-      ${ex.note?`<div class="ex-note">${ex.note}</div>`:''}
+      ${ex.image_url?`<div style="margin-bottom:var(--s3);border-radius:var(--rm);overflow:hidden;max-height:180px"><img src="${ex.image_url}" alt="${ex.name}" style="width:100%;height:180px;object-fit:cover;display:block" loading="lazy" onerror="this.parentElement.style.display='none'"/></div>`:''}
+    ${ex.note?`<div class="ex-note">${ex.note}</div>`:''}
       <div class="sets-grid" id="sets_${ex.id}">
         ${ex.sets.map((s,si)=>{
           const sdone=(setsDone[ex.id]||[])[si];
@@ -531,6 +533,14 @@ function renderExercises(){
       </div>
       <div class="note-wrap">
         <textarea data-note="${ex.id}" placeholder="Bilješka (zapešća, forma, raspad...)">${noteVal}</textarea>
+      </div>
+      <div class="phase-wrap" id="interex_${ex.id}" style="display:none;margin-top:var(--s3)">
+        <div class="phase-bar-bg"><div class="phase-bar-fill rest" style="width:0%"></div></div>
+        <div class="phase-info">
+          <span class="phase-label rest">Odmor između vježbi</span>
+          <span class="phase-time muted"></span>
+          <button class="phase-skip" style="visibility:hidden">Preskoči</button>
+        </div>
       </div>
       ${advice?`<div class="advice"><strong>Prijedlog za idući trening</strong>${advice}</div>`:''}
     `;
@@ -601,6 +611,38 @@ function bindExEvents(){
 function markSetDone(exId,si){
   setsDone[exId]=setsDone[exId]||[];
   setsDone[exId][si]=true;
+  // check if this was the last set of the exercise
+  const ex=workouts[currentDay].exercises.find(e=>e.id===exId);
+  if(ex && (setsDone[exId]||[]).filter(Boolean).length >= ex.sets.length){
+    // find next exercise
+    const exIdx=workouts[currentDay].exercises.findIndex(e=>e.id===exId);
+    const nextEx=workouts[currentDay].exercises[exIdx+1];
+    if(nextEx){
+      // show inter-exercise rest after short delay (let renderExercises run first)
+      setTimeout(()=>{
+        const wrap=document.getElementById(`interex_${exId}`);
+        if(!wrap) return;
+        wrap.style.display='block';
+        const fillEl=wrap.querySelector('.phase-bar-fill');
+        const timeEl=wrap.querySelector('.phase-time');
+        const skipEl=wrap.querySelector('.phase-skip');
+        skipEl.style.visibility='visible';
+        const restSec=90;
+        let elapsed=0;
+        fillEl.style.width='0%';
+        timeEl.textContent=fmt(restSec);
+        const key=`interex_${exId}`;
+        killPhase(key);
+        activePhase[key]={ interval: setInterval(()=>{
+          elapsed++;
+          fillEl.style.width=`${Math.min(elapsed/restSec*100,100)}%`;
+          timeEl.textContent=fmt(restSec-elapsed);
+          if(elapsed>=restSec){ killPhase(key); soundRestDone(); wrap.style.display='none'; }
+        },1000)};
+        skipEl.onclick=()=>{ killPhase(key); soundRestDone(); wrap.style.display='none'; };
+      }, 300);
+    }
+  }
 }
 function allSetsDone(exId){
   const ex=workouts[currentDay].exercises.find(e=>e.id===exId);
@@ -904,6 +946,7 @@ document.getElementById('importBtn').onclick = () => {
         if(importEx.note) existing.note = importEx.note;
         // Update progression hints if provided
         if(importEx.prog) existing.prog = importEx.prog;
+          if(importEx.image_url !== undefined) existing.image_url = importEx.image_url;
       } else if(importEx.id && importEx.name) {
         // New exercise – append
         workouts[day].exercises.push({
