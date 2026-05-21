@@ -934,30 +934,40 @@ document.getElementById('importBtn').onclick = () => {
     status.style.color = 'var(--err)'; return;
   }
 
-  // Merge: only update exercises array for days that exist in import
+  // Merge or replace exercises array for days that exist in import
   validDays.forEach(day => {
     if(!plan[day]?.exercises) return;
-    plan[day].exercises.forEach(importEx => {
-      const existing = workouts[day].exercises.find(e => e.id === importEx.id);
-      if(existing){
-        // Update sets targets
-        if(importEx.sets) existing.sets = importEx.sets.map(s => ({target: typeof s === 'string' ? s : s.target}));
-        // Update note if provided
-        if(importEx.note) existing.note = importEx.note;
-        // Update progression hints if provided
-        if(importEx.prog) existing.prog = importEx.prog;
+    const doReplace = plan[day].replace === true;
+    if(doReplace){
+      // Full replace: overwrite entire exercises array
+      workouts[day].exercises = plan[day].exercises.map(importEx => ({
+        id: importEx.id, name: importEx.name,
+        type: importEx.type || 'reps',
+        sets: (importEx.sets||[]).map(s => ({target: typeof s==='string'?s:s.target})),
+        note: importEx.note || '',
+        prog: importEx.prog || {1:'Pojačaj.',2:'Pojačaj.',3:'Zadrži.',4:'Ostani.',5:'Smanji.'},
+        ...(importEx.image_url !== undefined ? {image_url: importEx.image_url} : {})
+      }));
+    } else {
+      // Merge: update existing, append new
+      plan[day].exercises.forEach(importEx => {
+        const existing = workouts[day].exercises.find(e => e.id === importEx.id);
+        if(existing){
+          if(importEx.sets) existing.sets = importEx.sets.map(s => ({target: typeof s === 'string' ? s : s.target}));
+          if(importEx.note) existing.note = importEx.note;
+          if(importEx.prog) existing.prog = importEx.prog;
           if(importEx.image_url !== undefined) existing.image_url = importEx.image_url;
-      } else if(importEx.id && importEx.name) {
-        // New exercise – append
-        workouts[day].exercises.push({
-          id: importEx.id, name: importEx.name,
-          type: importEx.type || 'reps',
-          sets: (importEx.sets||[]).map(s => ({target: typeof s==='string'?s:s.target})),
-          note: importEx.note || '',
-          prog: importEx.prog || {1:'Pojačaj.',2:'Pojačaj.',3:'Zadrži.',4:'Ostani.',5:'Smanji.'}
-        });
-      }
-    });
+        } else if(importEx.id && importEx.name) {
+          workouts[day].exercises.push({
+            id: importEx.id, name: importEx.name,
+            type: importEx.type || 'reps',
+            sets: (importEx.sets||[]).map(s => ({target: typeof s==='string'?s:s.target})),
+            note: importEx.note || '',
+            prog: importEx.prog || {1:'Pojačaj.',2:'Pojačaj.',3:'Zadrži.',4:'Ostani.',5:'Smanji.'}
+          });
+        }
+      });
+    }
     // Update name/subtitle if provided
     if(plan[day].name) workouts[day].name = plan[day].name;
     if(plan[day].subtitle) workouts[day].subtitle = plan[day].subtitle;
